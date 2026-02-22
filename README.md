@@ -57,7 +57,7 @@ Each workspace represents a different team at ACME Corp with varying infrastruct
 
 **Team:** Storefront Engineering (Product Catalog & Web Assets)  
 **Infrastructure Maturity:** High  
-**Policy Status:** ✅ All passing
+**Policy Status:**  All passing
 
 **Resources:**
 - Product catalog S3 bucket (encrypted, properly tagged)
@@ -72,11 +72,11 @@ Each workspace represents a different team at ACME Corp with varying infrastruct
 
 **Team:** Checkout & Payments Engineering  
 **Infrastructure Maturity:** Medium  
-**Policy Status:** ❌ Hard fail - S3 encryption violation
+**Policy Status:** Hard fail - S3 encryption violation
 
 **Resources:**
 - Customer order data S3 bucket (**missing encryption**)
-- Payment audit logs S3 bucket (encrypted ✅)
+- Payment audit logs S3 bucket (encrypted)
 - Checkout API EC2 instance (t3.medium, ~$30/month)
 
 **Violation Scenario:**  
@@ -91,7 +91,7 @@ Developer copy-pasted an S3 bucket configuration under deadline pressure and omi
 
 **Team:** Data & Analytics Engineering (3 months old)  
 **Infrastructure Maturity:** Low  
-**Policy Status:** ❌ Multiple hard fails
+**Policy Status:** Multiple hard fails
 
 **Resources:**
 - Customer behavior data S3 bucket (**no encryption, no tags**)
@@ -311,5 +311,5 @@ This demo demonstrates:
 ---
 
 **Author:** Chase Erickson  
-**Contact:** [Your Email]  
+**Contact:** chase.erickson@ibm.com  
 **Purpose:** HashiCorp Solutions Engineer Technical Exercise
