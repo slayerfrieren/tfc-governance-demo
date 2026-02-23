@@ -1,0 +1,7 @@
+import "tfrun"
+import "decimal"
+
+# Flag deployments with monthly cost increases exceeding $200 for financial review
+main = rule when tfrun.cost_estimate else null is not null {
+  decimal.new(tfrun.cost_estimate.delta_monthly_cost).lte(decimal.new(200))
+}

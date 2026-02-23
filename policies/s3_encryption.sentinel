@@ -1,0 +1,18 @@
+import "tfplan/v2" as tfplan
+
+# Count S3 buckets
+s3_buckets = filter tfplan.resource_changes as _, rc {
+  rc.type is "aws_s3_bucket" and
+  (rc.change.actions contains "create" or rc.change.actions contains "update")
+}
+
+# Count encryption configs
+encryption_configs = filter tfplan.resource_changes as _, rc {
+  rc.type is "aws_s3_bucket_server_side_encryption_configuration" and
+  (rc.change.actions contains "create" or rc.change.actions contains "update")
+}
+
+# All S3 buckets must have server-side encryption enabled to protect data at rest
+main = rule {
+  length(s3_buckets) is length(encryption_configs)
+}

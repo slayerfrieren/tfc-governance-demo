@@ -1,0 +1,41 @@
+import "tfplan/v2" as tfplan
+
+# Only check resource types that support tags
+taggable_resources = [
+  "aws_instance",
+  "aws_s3_bucket",
+  "aws_db_instance",
+  "aws_ebs_volume",
+  "aws_vpc",
+  "aws_rds_cluster",
+  "aws_ecs_cluster",
+  "aws_lambda_function",
+]
+
+# Get taggable resources
+allResources = filter tfplan.resource_changes as _, rc {
+  rc.mode is "managed" and
+  rc.type in taggable_resources and
+  (rc.change.actions contains "create" or rc.change.actions contains "update")
+}
+
+mandatory_tags = [
+  "Environment",
+  "Team",
+  "CostCenter",
+  "Owner",
+  "ManagedBy",
+]
+
+require_tags = rule {
+  all allResources as _, resource {
+    resource.change.after.tags else null is not null and
+    all mandatory_tags as tag {
+      keys(resource.change.after.tags) contains tag
+    }
+  }
+}
+# Resources must include Environment, Team, and CostCenter tags for tracking and compliance
+main = rule {
+  require_tags
+}
